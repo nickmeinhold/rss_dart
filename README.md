@@ -2,6 +2,8 @@
 
 Parses RSS feeds to produce built_value model objects.
 
+Inspired by https://pub.dev/packages/webfeed 
+
 ## Code gen with built_value 
 
 After making changes to built_value classes run the builder to generate the new code:

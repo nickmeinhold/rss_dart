@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:rss_dart/models/media/media.dart';
 import 'package:rss_dart/models/serializers.dart';
 import 'package:xml/xml.dart';
 import 'package:rss_dart/utils/extensions.dart';
@@ -22,7 +23,7 @@ abstract class RssItem implements Built<RssItem, RssItemBuilder> {
   // String get comments;
   // RssSource get source;
   // RssContent get content;
-  // Media get media;
+  Media get media;
   // RssEnclosure get enclosure;
   // DublinCore get dc;
   // RssItemItunes get itunes;
@@ -35,7 +36,8 @@ abstract class RssItem implements Built<RssItem, RssItemBuilder> {
     final builder = RssItemBuilder()
       ..title = element.select('title')
       ..description = element.select('description')
-      ..link = element.select('link');
+      ..link = element.select('link')
+      ..media = Media.parse(element).toBuilder();
 
     return builder.build();
   }
