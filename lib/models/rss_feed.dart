@@ -56,10 +56,10 @@ abstract class RssFeed implements Built<RssFeed, RssFeedBuilder> {
         .map<RssItem>((element) => RssItem.parse(element)));
 
     final feedBuilder = RssFeedBuilder()
-      ..title = channelElement.select('title')
-      ..author = channelElement.select('author')
-      ..description = channelElement.select('description')
-      ..link = channelElement.select('link')
+      ..title = channelElement.getTextFor('title')
+      ..author = channelElement.getTextFor('author')
+      ..description = channelElement.getTextFor('description')
+      ..link = channelElement.getTextFor('link')
       ..items = itemsBuilder;
 
     return feedBuilder.build();

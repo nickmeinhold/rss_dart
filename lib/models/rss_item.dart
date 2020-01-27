@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:rss_dart/models/media/media.dart';
+import 'package:rss_dart/models/rss_enclosure.dart';
 import 'package:rss_dart/models/serializers.dart';
 import 'package:xml/xml.dart';
 import 'package:rss_dart/utils/extensions.dart';
@@ -12,8 +13,11 @@ import 'package:rss_dart/utils/extensions.dart';
 part 'rss_item.g.dart';
 
 abstract class RssItem implements Built<RssItem, RssItemBuilder> {
+  @nullable
   String get title;
+  @nullable
   String get description;
+  @nullable
   String get link;
 
   // List<RssCategory> get categories;
@@ -23,8 +27,10 @@ abstract class RssItem implements Built<RssItem, RssItemBuilder> {
   // String get comments;
   // RssSource get source;
   // RssContent get content;
+  @nullable
   Media get media;
-  // RssEnclosure get enclosure;
+  @nullable
+  RssEnclosure get enclosure;
   // DublinCore get dc;
   // RssItemItunes get itunes;
 
@@ -34,10 +40,12 @@ abstract class RssItem implements Built<RssItem, RssItemBuilder> {
 
   factory RssItem.parse(XmlElement element) {
     final builder = RssItemBuilder()
-      ..title = element.select('title')
-      ..description = element.select('description')
-      ..link = element.select('link')
-      ..media = Media.parse(element).toBuilder();
+      ..title = element.getTextFor('title')
+      ..description = element.getTextFor('description')
+      ..link = element.getTextFor('link')
+      ..media = Media.parse(element).toBuilder()
+      ..enclosure =
+          RssEnclosure.parse(element.getElementFor('enclosure')).toBuilder();
 
     return builder.build();
   }
@@ -53,8 +61,6 @@ abstract class RssItem implements Built<RssItem, RssItemBuilder> {
   // comments: findElementOrNull(element, "comments")?.text,
   // source: RssSource.parse(findElementOrNull(element, "source")),
   // content: RssContent.parse(findElementOrNull(element, "content:encoded")),
-  // media: Media.parse(element),
-  // enclosure: RssEnclosure.parse(findElementOrNull(element, "enclosure")),
   // dc: DublinCore.parse(element),
   // itunes: RssItemItunes.parse(element),
   // );

@@ -1,13 +1,19 @@
 import 'package:xml/xml.dart';
 
-extension ElementSelection on XmlElement {
-  String select(String name) {
+extension DocumentGetText on XmlDocument {
+  String getTextFor(String name) {
     return findElements(name).firstWhere((_) => true, orElse: () => null)?.text;
   }
 }
 
-extension DocumentSelection on XmlDocument {
-  String select(String name) {
+extension ElementGetText on XmlElement {
+  String getTextFor(String name) {
     return findElements(name).firstWhere((_) => true, orElse: () => null)?.text;
+  }
+}
+
+extension ElementGetElement on XmlElement {
+  XmlElement getElementFor(String name) {
+    return findElements(name).firstWhere((_) => true, orElse: () => null);
   }
 }
